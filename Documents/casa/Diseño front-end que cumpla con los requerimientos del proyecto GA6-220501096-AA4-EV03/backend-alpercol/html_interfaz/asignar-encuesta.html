@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asignar Encuesta</title>
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body id="page-asignar-encuesta">
+  
+  <header>
+     <!-- Header -->
+  <div class="header">
+    <div class="logo-container">
+      <img src="img/Ellipse 2.png" alt="Logo" class="logo">
+      <div class="company-name">ALPERCOL COMPANY</div>
+    </div>
+
+    <div class="user-panel">
+      <div class="user-info">
+        <p><strong>Usuario:</strong> <span id="header-user-name">...</span></p>
+        <p><strong>Rol:</strong> <span id="header-user-role">...</span></p>
+        <p><strong>Estado:</strong> <span id="header-user-status">...</span></p>
+      </div>
+      <div class="user-avatar">👤</div>
+      <span class="logout-btn">Cerrar Cesión</span>
+    </div>
+  </div>
+
+  <!-- Navegación -->
+   <div class="nav-bar">
+  <!-- Fila 1 -->
+  <div class="nav-item" data-target="dashboard.html">
+    <i class="fas fa-tachometer-alt"></i> Dashboard
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="crear-encuesta.html">
+    <i class="fas fa-plus-circle"></i> Crear Encuesta
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="responder-encuesta.html">
+    <i class="fas fa-smile"></i> encuestas anonimas
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="resultados-y-reportes.html">
+    <i class="fas fa-chart-line"></i> Reportes
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="asignar-encuesta.html">
+    <i class="fas fa-users-cog"></i> Asignación
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="gestionar-usuario.html">
+    <i class="fas fa-user-shield"></i> Gestion De Usuarios
+  </div>
+
+  <!-- Fila 2 -->
+  <div class="nav-item notification-badge" data-target="notificaciones.html">
+    <i class="fas fa-bell"></i> Notificaciones
+    <span class="badge">1</span>
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="perfil.html">
+    <i class="fas fa-user"></i> Mi Perfil
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="historia-envio.html">
+    <i class="fas fa-history"></i> Historial
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="revicion-respuesta.html">
+    <i class="fas fa-comment-dots"></i> Respuestas
+  </div>
+  <div class="separator"></div>
+
+ <div class="nav-item" data-target="responder-encuesta.html">
+    <i class="fas fa-list-check"></i> Responder Encuesta
+  </div>
+ </div>
+ </header>
+
+  
+  <div class="container">
+    <h1>Asignar Encuesta a Trabajadores</h1>
+    
+    <div class="card">
+      <select id="survey-select">
+        <option value="">Cargando encuestas...</option>
+      </select>
+      
+      <input type="text" id="search-worker" placeholder="Buscar trabajador...">
+      
+      <h3>Trabajadores seleccionados</h3>
+      <div id="workers-list">
+        <!-- Checkboxes generados por JS -->
+      </div>
+      
+      <input type="datetime-local" id="assign-date" placeholder="Fecha de asignación">
+      
+      <label style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+        <input type="checkbox" id="public-token-check"> Generar token de acceso público
+      </label>
+      
+      <div id="token-display" style="background: #f8f9fa; padding: 10px; border-radius: 6px; margin-top: 10px; display: none;">
+        URL: <code>https://sistema.com/encuesta/abc123</code>
+      </div>
+      
+      <button id="assign-btn" style="margin-top: 20px;">Asignar seleccionados</button>
+    </div>
+  </div>
+  <!-- conexión a lógica de interfaz -->
+  <script src="/logica_interfaz/common.js" defer></script>
+  <script src="/logica_interfaz/navigation.js" defer></script>
+  <script src="/logica_interfaz/asignar-encuesta.js" defer></script>
+  <script src="/logica_interfaz/header-info.js" defer></script>
+</body>
+</html>

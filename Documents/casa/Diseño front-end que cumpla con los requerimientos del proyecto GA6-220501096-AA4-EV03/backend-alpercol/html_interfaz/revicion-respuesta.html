@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisión de Respuestas</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body id="page-revicion-respuesta">
+
+  <header>
+     <!-- Header -->
+  <div class="header">
+    <div class="logo-container">
+      <img src="img/Ellipse 2.png" alt="Logo" class="logo">
+      <div class="company-name">ALPERCOL COMPANY</div>
+    </div>
+
+    <div class="user-panel">
+      <div class="user-info">
+        <p><strong>Usuario:</strong> <span id="header-user-name">Cargando...</span></p>
+        <p><strong>Rol:</strong> <span id="header-user-role">...</span></p>
+        <p><strong>Estado:</strong> <span id="header-user-status">...</span></p>
+      </div>
+      <div class="user-avatar">👤</div>
+      <span class="logout-btn">Cerrar Sesión</span>
+    </div>
+  </div>
+
+  <!-- Navegación -->
+  <div class="nav-bar">
+  <!-- Fila 1 -->
+  <div class="nav-item" data-target="dashboard.html">
+    <i class="fas fa-tachometer-alt"></i> Dashboard
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="crear-encuesta.html">
+    <i class="fas fa-plus-circle"></i> Crear Encuesta
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="responder-encuesta.html">
+    <i class="fas fa-smile"></i> encuestas anonimas
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="resultados-y-reportes.html">
+    <i class="fas fa-chart-line"></i> Reportes
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="asignar-encuesta.html">
+    <i class="fas fa-users-cog"></i> Asignación
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="gestionar-usuario.html">
+    <i class="fas fa-user-shield"></i> Gestion De Usuarios
+  </div>
+
+  <!-- Fila 2 -->
+  <div class="nav-item notification-badge" data-target="notificaciones.html">
+    <i class="fas fa-bell"></i> Notificaciones
+    <span class="badge">1</span>
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="perfil.html">
+    <i class="fas fa-user"></i> Mi Perfil
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="historia-envio.html">
+    <i class="fas fa-history"></i> Historial
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="revicion-respuesta.html">
+    <i class="fas fa-comment-dots"></i> Respuestas
+  </div>
+  <div class="separator"></div>
+<div class="nav-item" data-target="responder-encuesta.html">
+    <i class="fas fa-list-check"></i> Responder Encuesta
+  </div>
+ </header>
+
+  
+  <div class="container">
+    <h1 id="review-title">Revisión de Respuestas</h1>
+    
+    <div id="review-container">
+        <!-- JS -->
+    </div>
+    
+    <button>Volver</button>
+  </div>
+
+  <script src="/logica_interfaz/common.js" defer></script>
+  <script src="/logica_interfaz/navigation.js" defer></script>
+  <script src="/logica_interfaz/revicion-respuesta.js" defer></script>
+  <script src="/logica_interfaz/header-info.js" defer></script>
+</body>
+</html>

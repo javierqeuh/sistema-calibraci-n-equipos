@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes</title>
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body id="page-resultados-y-reportes">
+
+  <header>
+     <!-- Header -->
+  <div class="header">
+    <div class="logo-container">
+      <img src="img/Ellipse 2.png" alt="Logo" class="logo">
+      <div class="company-name">ALPERCOL COMPANY</div>
+    </div>
+
+    <div class="user-panel">
+      <div class="user-info">
+        <p><strong>Usuario:</strong> <span id="header-user-name">Cargando...</span></p>
+        <p><strong>Rol:</strong> <span id="header-user-role">...</span></p>
+        <p><strong>Estado:</strong> <span id="header-user-status">...</span></p>
+      </div>
+      <div class="user-avatar">👤</div>
+      <span class="logout-btn">Cerrar Sesión</span>
+    </div>
+  </div>
+
+  <!-- Navegación -->
+   <div class="nav-bar">
+  <!-- Fila 1 -->
+  <div class="nav-item" data-target="dashboard.html">
+    <i class="fas fa-tachometer-alt"></i> Dashboard
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="crear-encuesta.html">
+    <i class="fas fa-plus-circle"></i> Crear Encuesta
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="responder-encuesta.html">
+    <i class="fas fa-smile"></i> encuestas anonimas
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="resultados-y-reportes.html">
+    <i class="fas fa-chart-line"></i> Reportes
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="asignar-encuesta.html">
+    <i class="fas fa-users-cog"></i> Asignación
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="gestionar-usuario.html">
+    <i class="fas fa-user-shield"></i> Gestion De Usuarios
+  </div>
+
+  <!-- Fila 2 -->
+  <div class="nav-item notification-badge" data-target="notificaciones.html">
+    <i class="fas fa-bell"></i> Notificaciones
+    <span class="badge">1</span>
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="perfil.html">
+    <i class="fas fa-user"></i> Mi Perfil
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="historia-envio.html">
+    <i class="fas fa-history"></i> Historial
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="revicion-respuesta.html">
+    <i class="fas fa-comment-dots"></i> Respuestas
+  </div>
+  <div class="separator"></div>
+
+ <div class="nav-item" data-target="responder-encuesta.html">
+    <i class="fas fa-list-check"></i> Responder Encuesta
+  </div>
+</div>
+ </header>
+
+ <style>
+  .stats-bar { display:flex; gap:12px; flex-wrap:wrap; margin:16px auto; max-width:1100px; }
+  .stat-card { flex:1 1 220px; background:#fff; border:1px solid #eee; border-radius:10px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  .stat-title { font-size:.9rem; color:#666; margin:0 0 6px; }
+  .stat-value { font-size:1.8rem; font-weight:700; margin:0; }
+  .stat-sub { font-size:.8rem; color:#999; margin-top:6px; }
+ </style>
+ 
+ 
+
+ <script src="/logica_interfaz/common.js"></script>
+ <script src="/logica_interfaz/resultados-y-reportes-stats.js" defer></script>
+
+  <div class="container">
+    <h1>Reportes de Encuestas</h1>
+    
+    <div class="card" style="margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <select id="survey-select" style="padding: 10px; border-radius: 5px; border: 1px solid #ddd; flex: 1; min-width: 200px;">
+          <option value="">Cargando encuestas...</option>
+        </select>
+        <button id="export-excel-btn" class="secondary">Exportar Excel</button>
+      </div>
+    </div>
+    
+    <div id="report-results-container">
+      <p style="text-align: center; color: #666; margin-top: 50px;">Selecciona una encuesta arriba para ver los resultados.</p>
+    </div>
+  </div>
+
+ <script src="/logica_interfaz/common.js" defer></script>
+  <script src="/logica_interfaz/navigation.js" defer></script>
+  <script src="/logica_interfaz/resultados-y-reportes.js" defer></script>
+  <script src="/logica_interfaz/resultados-y-reportes-stats.js" defer></script>
+  <script src="/logica_interfaz/header-info.js" defer></script>
+</body>
+</html>

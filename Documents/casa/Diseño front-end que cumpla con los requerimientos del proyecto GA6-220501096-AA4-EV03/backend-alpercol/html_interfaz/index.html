@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+    <!-- Logo y nombre -->
+    <div class="logo-container">
+      <img src="/img/Ellipse 2.png" alt="Logo" class="logo">
+      <div class="company-name">ALPERCOL COMPANY</div>
+    </div>
+
+    <!-- Menú de navegación -->
+    <div class="nav-menu">
+      <a href="/interfasz-ingreso.html" class="nav-button"><i class="fa-solid fa-house"></i></a>
+      <a href="/index.html" class="nav-button">INICIO</a>
+      <a href="/interfasz-ingreso.html#formulario-ideas" class="nav-button">ENCUESTA</a>
+      <a href="/interfasz-ingreso.html#contacto" class="nav-button">CONTACTO</a>
+    </div>
+
+    <!-- Botón de registro -->
+     <div class="registro-button1">
+    <a href="/registro.html" class="register-button">REGISTRARSE</a>
+    </div>
+    </nav>
+  </header>
+
+  <div class="container" style="display: flex; 
+  justify-content: center;
+   align-items: center; min-height: 80vh;">
+    <div class="card" style="width: 100%;
+     max-width: 400px;">
+      <h2 style="text-align: center;">Iniciar Sesión</h2>
+      <form id="login-form">
+        <input id="email" type="text" placeholder="Email o Usuario" required>
+        <span id="email-error" style="color: red; font-size: 0.8em; display: none;"></span>
+        <input id="password" type="password" placeholder="Contraseña" required>
+        <span id="password-error" style="color: red; font-size: 0.8em; display: none;"></span>
+        <label for="role" style="display: block; margin-top: 8px; margin-bottom: -4px; color: #6c757d;">Selecciona tu rol:</label>
+        <select id="role" required>
+          <option value="usuario">Usuario</option>
+          <option value="trabajador">Trabajador</option>
+          <option value="administrador">Administrador</option>
+        </select>
+        <span id="role-error" style="color: red; font-size: 0.8em; display: none;"></span>
+        <button type="submit" id="submit-btn">Iniciar sesión</button>
+      </form>
+      <p style="text-align: center; margin-top: 10px;">
+        <a href="#" style="color: #007bff; text-decoration: none;">¿Olvidó su contraseña?</a>
+      </p>
+      <p style="text-align: center; margin-top: 10px; color: #6c757d;">
+        ¿No tienes cuenta? <a href="/registro.html" style="color: #007bff;">Regístrate</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Enlace al script principal de JavaScript -->
+ <script src="/logica_interfaz/index-login.js" defer></script>
+</body>
+</html>

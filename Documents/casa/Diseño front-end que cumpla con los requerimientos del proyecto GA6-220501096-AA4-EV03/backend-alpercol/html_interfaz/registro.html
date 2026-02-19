@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alpercol Company - Crear Cuenta</title>
+  <!-- Font Awesome (para íconos si los necesitas después) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Enlace al CSS externo -->
+  <link rel="stylesheet" href="registro.css" />
+</head>
+<body id="page-registro">
+
+  <!-- Barra de navegación -->
+  <header class="navbar">
+    <div class="logo-container">
+      <img src="img/Ellipse 2.png" alt="Logo Alpercol" class="logo">
+      <div class="company-name">ALPERCOL COMPANY</div>
+    </div>
+    <div class="nav-links">
+      <a href="interfasz-ingreso.html" class="nav-btn"><i class="fa-solid fa-house"></i></a>
+      <a href="index.html" class="nav-btn">INICIO</a>
+      <a href="interfasz-ingreso.html#productos" class="nav-btn">PRODUCTOS</a>
+      <a href="interfasz-ingreso.html#contacto" class="nav-btn">CONTACTO</a>
+    </div>
+     <!-- Botón de registro -->
+      <div class="registro-button1">
+    <a href="registro.html" class="nav-btn-active">REGISTRARSE</a>
+    </div>
+  </header>
+
+  <!-- Sección principal con formulario -->
+  <section class="hero-section">
+    <div class="hero-bg"></div>
+    <div class="img-card"></div>
+    
+    <div class="form-container">
+      <h2 class="form-title">Crear Cuenta</h2>
+      <p class="form-subtitle">Encuestas Laborales</p>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label class="form-label" for="nombre">Nombre</label>
+          <input type="text" id="nombre" class="form-input" placeholder="Tu Nombre Completo" required>
+          <span id="nombre-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="apellidos">Apellidos</label>
+          <input type="text" id="apellidos" class="form-input" placeholder="Apellidos Completos" required>
+          <span id="apellidos-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cedula">Numero De Cedula</label>
+          <input type="text" id="cedula" class="form-input" placeholder="Numero De Cedula" required>
+          <span id="cedula-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fecha-nac">Fecha De Nacimiento</label>
+          <input type="date" id="fecha-nac" class="form-input" required>
+          <span id="fecha-nac-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="gmail">Gmail</label>
+          <input type="email" id="email" class="form-input" placeholder="Tu correo electrónico" required>
+          <span id="email-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contraseña">Contraseña</label>
+          <input type="password" id="contraseña" class="form-input" placeholder="Crear Una Contraseña Segura" required>
+          <span id="contraseña-error" class="error-message"></span>
+          <div class="password-rules">
+            La Contraseña Debe Cumplir:
+            <ul>
+              <li>Al Menos 8 Caracteres</li>
+              <li>Una Letra Mayuscula</li>
+              <li>Una Letra Menuscula</li>
+              <li>Un Numero</li>
+              <li>Un Carater Especial (!@#$%^&*)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirmar-contraseña">Confirma Contraseña</label>
+          <input type="password" id="confirmar-contraseña" class="form-input" placeholder="Repetir Tu Contraseña" required>
+          <span id="confirmar-contraseña-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tipo De Usuario</label>
+          <div class="user-type-buttons">
+            <button type="button" class="user-type-btn" data-type="usuario">Usuario</button>
+            <button type="button" class="user-type-btn" data-type="trabajador">Trabajador</button>
+          </div>
+          <span id="user-type-error" class="error-message"></span>
+        </div>
+
+        <button type="submit" class="submit-btn">Crear Cuenta</button>
+      </form>
+
+      <div class="login-link">
+        ¿Ya Tienes Cuenta?<br>
+        <a href="index.html" id="login-link">Inicia Sesion Aqui</a>
+      </div>
+    </div>
+    
+  </section>
+  <footer class="footer-text">
+    Fábrica Alpercol S.A. © Todos Los Derechos Reservados.
+  </footer>
+  <section>
+ 
+    
+
+
+ 
+</div>
+ </section>
+  <!-- Enlace al script principal de JavaScript -->
+  <script src="/logica_interfaz/main.js" defer></script>
+
+</body>
+</html>

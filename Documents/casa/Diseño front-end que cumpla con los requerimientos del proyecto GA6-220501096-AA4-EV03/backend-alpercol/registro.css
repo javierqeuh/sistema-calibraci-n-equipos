@@ -1,0 +1,272 @@
+/* Estilos generales */
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      margin: 20px;
+    }
+
+/* Barra de navegación */
+.navbar {
+     display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color:transparent;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      position: relative;
+      border-radius: 30px;
+    }
+
+/* Logo y nombre de la empresa */
+.logo-container {
+  display: flex;
+      align-items: center;
+      gap: 15px;
+}
+
+.logo{
+  width: 100px;
+  height: 100px;
+    }
+
+.company-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      letter-spacing: 1px;
+    }
+
+
+/* Menú de navegación (botones) */
+.nav-links {
+  position:absolute ;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  background-color: #306e40;
+  border-radius: 15px;
+  padding: 5px 10px;
+  gap: 10px;
+  align-items: center;
+}
+
+.fa-solid{
+  background: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+.nav-btn{
+  background: none;
+  color: white;
+  border: none;
+  font-size: clamp(14px, 11.4vw, 18px);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none !important;
+}
+
+.nav-btn:hover {
+  background-color: #429764;
+  border-radius: 15px;
+}
+
+.registro-button1{
+      display: flex;
+      background-color: #306E40;
+      border-radius: 15px;
+      padding: 5px 10px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    
+/*boton de registro*/
+.nav-btn-active{
+       background: none;
+      color: white;
+      border: none;
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 600;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 8px 14px;
+      transition: background-color 0.3s ease;
+      text-decoration: none !important;
+    }
+    .user-type-btn.active {
+  background-color: #007bff;
+  color: white;
+}
+
+    .nav-btn-active:hover {
+      background-color:  #fcf9f950;
+      border-radius: 15px;
+    }
+
+/* Sección principal */
+.hero-section{
+    width: 100%;
+    height: 1440px;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+
+.hero-bg {
+  width: 100%;
+  height: 700px;
+  background-image: url("img/mujer.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 20px;
+}
+
+.img-card{
+width: 100%;
+  height: 700px;
+  background-image: url("img/mujer.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-top: 20px;
+  border-radius: 20px;
+}
+
+.form-container {
+  position: absolute;
+  top: 700px;
+  right: 40%;
+  transform: translateY(-50%);
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  max-width: 90%;
+  margin-top: 170px;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.form-subtitle {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Formulario */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.password-rules {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+.password-rules ul {
+  padding-left: 20px;
+  margin: 5px 0;
+}
+
+.user-type-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.user-type-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.user-type-btn:hover,
+.user-type-btn.active {
+  background-color: #d0d0d0;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #6c9b7e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #5a7d65;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.login-link a {
+  color: #6c9b7e;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+
+
+.footer-text{
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #0c0c0c;
+  font-weight: normal;
+}

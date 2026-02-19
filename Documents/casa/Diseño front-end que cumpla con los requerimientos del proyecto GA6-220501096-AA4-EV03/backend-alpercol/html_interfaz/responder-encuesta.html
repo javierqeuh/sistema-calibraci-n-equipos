@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responder Encuesta</title>
+  <link rel="stylesheet" href="style2.css">
+  <style>
+    .progress-bar {
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 60%;
+      background: #007bff;
+      border-radius: 4px;
+    }
+  </style> 
+</head>
+<body id="page-responder-encuesta">
+
+  <header>
+     <!-- Header -->
+  <div class="header">
+    <div class="logo-container">
+      <img src="img/Ellipse 2.png" alt="Logo" class="logo">
+      <div class="company-name">ALPERCOL COMPANY</div>
+    </div>
+
+    <div class="user-panel">
+      <div class="user-info">
+        <p><strong>Usuario:</strong> <span id="header-user-name">Cargando...</span></p>
+        <p><strong>Rol:</strong> <span id="header-user-role">...</span></p>
+        <p><strong>Estado:</strong> <span id="header-user-status">...</span></p>
+      </div>
+      <div class="user-avatar">👤</div>
+      <span class="logout-btn">Cerrar Sesión</span>
+    </div>
+  </div>
+
+  <!-- Navegación -->
+   <div class="nav-bar">
+  <!-- Fila 1 -->
+  <div class="nav-item" data-target="dashboard.html">
+    <i class="fas fa-tachometer-alt"></i> Dashboard
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="crear-encuesta.html">
+    <i class="fas fa-plus-circle"></i> Crear Encuesta
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="responder-encuesta.html">
+    <i class="fas fa-smile"></i> encuestas anonimas
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="resultados-y-reportes.html">
+    <i class="fas fa-chart-line"></i> Reportes
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="asignar-encuesta.html">
+    <i class="fas fa-users-cog"></i> Asignación
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="gestionar-usuario.html">
+    <i class="fas fa-user-shield"></i> Gestion De Usuarios
+  </div>
+
+  <!-- Fila 2 -->
+  <div class="nav-item notification-badge" data-target="notificaciones.html">
+    <i class="fas fa-bell"></i> Notificaciones
+    <span class="badge">1</span>
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="perfil.html">
+    <i class="fas fa-user"></i> Mi Perfil
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="historia-envio.html">
+    <i class="fas fa-history"></i> Historial
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="revicion-respuesta.html">
+    <i class="fas fa-comment-dots"></i> Respuestas
+  </div>
+  <div class="separator"></div>
+
+  <div class="nav-item" data-target="responder-encuesta.html">
+    <i class="fas fa-list-check"></i> Responder Encuesta
+  </div>
+</div>
+ </header>
+ 
+  <div class="container">
+    <!-- Mensaje cuando no hay encuestas -->
+    <p id="no-surveys-message" style="display:none; color:#555;">No hay encuestas disponibles.</p>
+
+    <!-- Listado de encuestas -->
+    <div id="surveys-list"><!-- Se llena dinámicamente --></div>
+
+    <!-- Detalle de una encuesta seleccionada -->
+    <div id="survey-details" style="display:none; margin-top:20px;">
+      <h2 id="survey-title-display" style="margin-bottom:6px;"></h2>
+      <p id="survey-description-display" style="color:#666; margin-top:0;"></p>
+
+      <!-- Bloque de preguntas renderizadas -->
+      <div id="questions-display" style="margin-top:16px;"></div>
+
+      <!-- Formulario para permitir reset y coherencia con la lógica -->
+      <form id="responses-form"></form>
+
+      <!-- Acciones -->
+      <div style="margin-top:12px; display:flex; gap:10px;">
+        <button id="back-to-list-btn" type="button" class="btn-secondary">Volver al listado</button>
+        <button id="submit-responses-btn" type="button" class="btn-primary">Enviar respuestas</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/logica_interfaz/common.js" defer></script>
+  <script src="/logica_interfaz/navigation.js" defer></script>
+  <script src="/logica_interfaz/responder-encuesta.js" defer></script>
+  <script src="/logica_interfaz/header-info.js" defer></script>
+</body>
+</html>
