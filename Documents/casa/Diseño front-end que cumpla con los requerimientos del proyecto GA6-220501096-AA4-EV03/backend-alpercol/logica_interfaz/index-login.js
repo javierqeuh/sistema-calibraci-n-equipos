@@ -1,4 +1,12 @@
-// Espera a que todo el contenido del HTML esté cargado
+/**
+ * Lógica para la página de inicio de sesión (index.html).
+ * Responsabilidades:
+ * - Validar los campos del formulario (email, contraseña, rol).
+ * - Enviar las credenciales a la API para autenticación.
+ * - Manejar la respuesta del servidor (éxito o error).
+ * - Almacenar el token y los datos del usuario en localStorage en caso de éxito.
+ * - Redirigir al usuario al dashboard tras un inicio de sesión exitoso.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   // === CONFIGURACIÓN CENTRALIZADA (diccionarios) ===
   const CONFIG = {
@@ -77,7 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // === FUNCIONES AUXILIARES ===
 
   /**
-   * Muestra u oculta un mensaje de error en un campo
+   * Muestra u oculta un mensaje de error para un campo específico.
+   * @param {string} field - La clave del campo (ej. 'email', 'password').
+   * @param {string} [message=''] - El mensaje de error a mostrar. Si está vacío, se oculta.
    */
   function showError(field, message = '') {
     const errorEl = elements.errors[field];
@@ -87,21 +97,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Limpia todos los mensajes de error
+   * Limpia todos los mensajes de error del formulario.
    */
   function clearAllErrors() {
     Object.keys(elements.errors).forEach(field => showError(field, ''));
   }
 
   /**
-   * Valida el formato de un email
+   * Valida si una cadena tiene el formato de un email.
+   * @param {string} email - El email a validar.
+   * @returns {boolean} - `true` si el formato es válido, `false` en caso contrario.
    */
   function isValidEmail(email) {
     return CONFIG.VALIDATION.emailRegex.test(email);
   }
 
   /**
-   * Valida los datos del formulario
+   * Valida todos los campos del formulario de inicio de sesión.
+   * @param {string} email - El valor del campo de email.
+   * @param {string} password - El valor del campo de contraseña.
+   * @param {string} role - El valor del campo de rol.
    * @returns {{ isValid: boolean, errors: Object }}
    */
   function validateForm(email, password, role) {
@@ -130,7 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Simula la verificación de credenciales (reemplazar con fetch/axios en producción)
+   * Envía las credenciales al endpoint de login de la API.
+   * @param {string} email - El email del usuario.
+   * @param {string} password - La contraseña del usuario.
+   * @param {string} role - El rol seleccionado por el usuario.
+   * @returns {Promise<{ok: boolean, data: any}>} - Una promesa que resuelve con el estado de la respuesta y los datos.
    */
   async function authenticateUser(email, password, role) {
     const response = await fetch(`${CONFIG.API_BASE_URL}/login`, {
@@ -147,7 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Actualiza el estado del botón (loading / normal)
+   * Controla el estado visual y de habilitación del botón de envío.
+   * @param {boolean} [loading=false] - `true` para mostrar el estado de carga, `false` para el estado normal.
    */
   function setButtonState(loading = false) {
     const btn = elements.submitBtn;

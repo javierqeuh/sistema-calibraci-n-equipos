@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import db from '../config/db.js';
 
 export const register = async (req, res) => {
@@ -46,7 +47,7 @@ export const register = async (req, res) => {
     if (connection) connection.release();
   }
 };
-
+// login 
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
 
@@ -94,5 +95,69 @@ export const getMe = async (req, res) => {
   } catch (error) {
     console.error('Error al obtener usuario actual:', error);
     res.status(500).json({ message: 'Error del servidor.' });
+  }
+};
+
+// 1. SOLICITAR RECUPERACIÓN
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // 1. Buscar el usuario
+    const [users] = await db.execute('SELECT id_usuario, email FROM usuario WHERE email = ?', [email]);
+    
+    // Por seguridad, siempre respondemos igual para no revelar si el email existe o no
+    if (users.length === 0) {
+      return res.status(200).json({ 
+        message: "Si el correo existe, se ha enviado un enlace de recuperación." 
+      });
+    }
+    const user = users[0];
+
+    // 2. Generar token aleatorio
+    const token = crypto.randomBytes(20).toString('hex');
+    const expireDate = new Date(Date.now() + 3600000); // 1 hora
+
+    // 3. Guardar token en la DB (MySQL)
+    // await db.execute('UPDATE usuario SET reset_token = ?, reset_expires = ? WHERE id_usuario = ?', [token, expireDate, user.id_usuario]);
+
+    // 4. Construir el enlace de reseteo
+    const resetUrl = `http://localhost:3001/reset-password?token=${token}`;
+
+    // 5. Enviar el correo (Requiere configurar nodemailer)
+    // Por ahora solo mostramos en consola para depuración
+    console.log(`[SIMULACIÓN] Enviar correo a ${email} con token: ${token}`);
+    console.log(`[SIMULACIÓN] Link: ${resetUrl}`);
+
+    res.status(200).json({ message: "Correo de recuperación enviado." });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error en el servidor." });
+  }
+};
+
+// 2. RESTABLECER CONTRASEÑA
+export const resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  try {
+    // 1. Buscar usuario con el token Y que no haya expirado
+    // const [users] = await db.execute('SELECT * FROM usuario WHERE reset_token = ? AND reset_expires > NOW()', [token]);
+
+    // if (users.length === 0) {
+    //   return res.status(400).json({ message: "Token inválido o expirado." });
+    // }
+    // const user = users[0];
+
+    // 2. Actualizar contraseña
+    // const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // await db.execute('UPDATE usuario SET password_hash = ?, reset_token = NULL, reset_expires = NULL WHERE id_usuario = ?', [hashedPassword, user.id_usuario]);
+
+    res.status(200).json({ message: "Contraseña actualizada con éxito (Simulado)." });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al actualizar la contraseña." });
   }
 };

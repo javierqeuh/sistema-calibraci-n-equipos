@@ -254,6 +254,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    // agregar foto perfil
+     const profilePictureInput = document.getElementById('profile-picture-input');
+     const profilePicturePreview = document.getElementById('profile-picture-preview');
+        if (profilePictureInput && profilePicturePreview) {
+            profilePictureInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        profilePicturePreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
     // ========== EVENT LISTENERS ==========
 
     // Botón para guardar cambios del perfil

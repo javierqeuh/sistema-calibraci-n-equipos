@@ -1,12 +1,12 @@
 /**
  * Lógica para la página: gestionar-usuario.html
  * Responsabilidades:
- * - Cargar listado de usuarios y trabajadores
- * - Crear nuevos usuarios
- * - Editar usuarios existentes
- * - Eliminar usuarios
- * - Cambiar estado de usuarios (activo/inactivo)
- * - Validar datos antes de enviar
+ * - Cargar y mostrar listados de usuarios y trabajadores.
+ * - Permitir cambiar entre las pestañas de "Usuarios" y "Trabajadores".
+ * - Abrir un modal para crear o editar usuarios.
+ * - Validar los datos del formulario antes de enviarlos.
+ * - Enviar solicitudes a la API para crear, actualizar y eliminar usuarios.
+ * - Utilizar delegación de eventos para un manejo eficiente de las acciones de la tabla.
  * - Manejar errores y notificaciones
  */
 
@@ -35,9 +35,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentTab = 'usuarios'; // usuarios o trabajadores
     let editingUserId = null;
-    let allUsers = [];
-    let allWorkers = [];
-
+    // Almacén centralizado para los datos de ambas pestañas
+    const dataStore = {
+        usuarios: [],
+        trabajadores: []
+    };
     // ========== FUNCIONES DE UTILIDAD ==========
 
     /**
@@ -89,143 +91,76 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     /**
-     * Carga el listado de usuarios
+     * Carga los datos (usuarios o trabajadores) desde la API.
+     * @param {string} type - El tipo de datos a cargar ('usuarios' o 'trabajadores').
      */
-    const loadUsers = async () => {
+    const loadData = async (type) => {
         if (!checkAuthentication()) return;
+        const endpoint = type === 'usuarios' ? '/api/usuarios' : '/api/trabajadores';
 
         try {
             const token = getAuthToken();
-            const response = await fetch('http://localhost:3001/api/usuarios', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            const response = await fetch(endpoint, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-
             const result = await response.json();
 
             if (response.ok) {
-                allUsers = result.data || [];
-                displayUsers();
+                dataStore[type] = result.data || [];
+                renderTable();
             } else {
                 window.showAppNotification(`Error: ${result.error}`, 'error');
             }
         } catch (error) {
-            console.error('Error al cargar usuarios:', error);
+            console.error(`Error al cargar ${type}:`, error);
             window.showAppNotification('No se pudo conectar con el servidor.', 'error');
         }
     };
 
     /**
-     * Carga el listado de trabajadores
+     * Renderiza la tabla con los datos de la pestaña actual.
      */
-    const loadWorkers = async () => {
-        if (!checkAuthentication()) return;
-
-        try {
-            const token = getAuthToken();
-            const response = await fetch('http://localhost:3001/api/trabajadores', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                allWorkers = result.data || [];
-                displayWorkers();
-            } else {
-                window.showAppNotification(`Error: ${result.error}`, 'error');
-            }
-        } catch (error) {
-            console.error('Error al cargar trabajadores:', error);
-            window.showAppNotification('No se pudo conectar con el servidor.', 'error');
-        }
-    };
-
-    /**
-     * Muestra los usuarios en la tabla
-     */
-    const displayUsers = () => {
+    const renderTable = () => {
         if (!tableBody) return;
 
         tableBody.innerHTML = '';
+        
+        const data = dataStore[currentTab];
+        const isUsersTab = currentTab === 'usuarios';
+        const headers = isUsersTab 
+            ? ['Nombre', 'Email', 'Rol', 'Activo', 'Acciones']
+            : ['Nombre', 'Email', 'Departamento', 'Activo', 'Acciones'];
 
-        if (allUsers.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="5">No hay usuarios registrados.</td></tr>';
+        // Actualizar cabeceras de la tabla
+        const headerRow = tableBody.parentElement.querySelector('thead tr');
+        if (headerRow) {
+            headerRow.innerHTML = headers.map(h => `<th>${h}</th>`).join('');
+        }
+
+        if (data.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="${headers.length}">No hay ${currentTab} registrados.</td></tr>`;
             return;
         }
 
-        allUsers.forEach(user => {
+        data.forEach(item => {
             const row = document.createElement('tr');
-            const statusIcon = user.activo ? '✅' : '❌';
+            // Guardamos el ID de usuario en la fila para un acceso fácil
+            row.dataset.id = item.id_usuario;
+
+            const statusIcon = item.activo ? '✅' : '❌';
+            const name = isUsersTab ? `${item.nombre} ${item.apellidos || ''}` : item.nombre;
+            const roleOrDept = isUsersTab ? item.rol : item.departamento;
 
             row.innerHTML = `
-                <td>${user.nombre} ${user.apellidos || ''}</td>
-                <td>${user.email}</td>
-                <td>${user.rol}</td>
+                <td>${name}</td>
+                <td>${item.email}</td>
+                <td>${roleOrDept}</td>
                 <td>${statusIcon}</td>
                 <td>
-                    <button class="secondary" style="padding: 5px 10px; margin-right: 5px;">Editar</button>
-                    <button class="danger" style="padding: 5px 10px;">Eliminar</button>
+                    <button class="secondary edit-btn" style="padding: 5px 10px; margin-right: 5px;">Editar</button>
+                    <button class="danger delete-btn" style="padding: 5px 10px;">Eliminar</button>
                 </td>
             `;
-
-            // Botón Editar
-            row.querySelector('.secondary').addEventListener('click', () => {
-                openEditModal(user);
-            });
-
-            // Botón Eliminar
-            row.querySelector('.danger').addEventListener('click', () => {
-                deleteUser(user.id_usuario);
-            });
-
-            tableBody.appendChild(row);
-        });
-    };
-
-    /**
-     * Muestra los trabajadores en la tabla
-     */
-    const displayWorkers = () => {
-        if (!tableBody) return;
-
-        tableBody.innerHTML = '';
-
-        if (allWorkers.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="5">No hay trabajadores registrados.</td></tr>';
-            return;
-        }
-
-        allWorkers.forEach(worker => {
-            const row = document.createElement('tr');
-            const statusIcon = worker.activo ? '✅' : '❌';
-
-            row.innerHTML = `
-                <td>${worker.nombre}</td>
-                <td>${worker.email}</td>
-                <td>${worker.departamento}</td>
-                <td>${statusIcon}</td>
-                <td>
-                    <button class="secondary" style="padding: 5px 10px; margin-right: 5px;">Editar</button>
-                    <button class="danger" style="padding: 5px 10px;">Eliminar</button>
-                </td>
-            `;
-
-            // Botón Editar
-            row.querySelector('.secondary').addEventListener('click', () => {
-                openEditModal(worker);
-            });
-
-            // Botón Eliminar
-            row.querySelector('.danger').addEventListener('click', () => {
-                deleteWorker(worker.id_trabajador);
-            });
-
             tableBody.appendChild(row);
         });
     };
@@ -236,10 +171,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const openCreateModal = () => {
         editingUserId = null;
         if (modalTitle) modalTitle.textContent = 'Crear Nuevo Usuario';
-        if (modalForm) modalForm.reset();
-        if (userLastnameInput) userLastnameInput.value = '';
-        if (userPasswordInput) userPasswordInput.style.display = 'block';
+        if (modalForm) modalForm.reset(); // Limpia todos los campos
+        if (userPasswordInput) {
+            userPasswordInput.placeholder = 'Crear una contraseña segura';
+        }
         if (modalOverlay) modalOverlay.style.display = 'block';
+        userRoleSelect.value = 'usuario'; // Valor por defecto
     };
 
     /**
@@ -247,16 +184,17 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {Object} user - Usuario a editar
      */
     const openEditModal = (user) => {
-        editingUserId = user.id_usuario || user.id_trabajador;
+        editingUserId = user.id_usuario;
         if (modalTitle) modalTitle.textContent = 'Editar Usuario';
 
         if (userNameInput) userNameInput.value = user.nombre;
-        if (userLastnameInput) userLastnameInput.value = user.apellidos || user.apellido || '';
+        if (userLastnameInput) userLastnameInput.value = user.apellidos || '';
         if (userEmailInput) userEmailInput.value = user.email;
-        if (userRoleSelect) userRoleSelect.value = user.rol || '';
+        if (userRoleSelect) userRoleSelect.value = user.rol || 'usuario';
         if (userPasswordInput) {
             userPasswordInput.value = '';
-            userPasswordInput.style.display = 'none'; // No mostrar contraseña en edición
+            // Es mejor cambiar el placeholder para indicar que es opcional
+            userPasswordInput.placeholder = 'Dejar en blanco para no cambiar';
         }
 
         if (modalOverlay) modalOverlay.style.display = 'block';
@@ -301,8 +239,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return false;
         }
 
-        // Si es creación (no edición), validar contraseña
-        if (!editingUserId && password) {
+        // La contraseña es obligatoria solo al crear un usuario nuevo.
+        if (!editingUserId && !password) {
             const passwordValidation = validatePassword(password);
             if (!passwordValidation.isValid) {
                 window.showAppNotification(passwordValidation.message, 'error');
@@ -321,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        window.setButtonLoadingState('save-user-btn', true, 'Guardando...');
+        window.setButtonLoadingState('save-user-btn', true, 'Guardar Usuario');
 
         try {
             const token = getAuthToken();
@@ -331,13 +269,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 apellidos: userLastnameInput?.value.trim(),
                 email: userEmailInput?.value.trim(),
                 rol: userRoleSelect?.value,
-                password: userPasswordInput?.value
             };
+
+            // Solo incluir la contraseña si se ha escrito algo
+            if (userPasswordInput?.value) {
+                userData.password = userPasswordInput.value;
+            }
 
             const method = editingUserId ? 'PUT' : 'POST';
             const url = editingUserId
-                ? `http://localhost:3001/api/usuarios/${editingUserId}`
-                : 'http://localhost:3001/api/usuarios';
+                ? `/api/usuarios/${editingUserId}` : '/api/usuarios';
 
             const response = await fetch(url, {
                 method: method,
@@ -354,11 +295,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const message = editingUserId ? 'Usuario actualizado correctamente.' : 'Usuario creado correctamente.';
                 window.showAppNotification(message, 'success');
                 closeModal();
-                if (currentTab === 'usuarios') {
-                    loadUsers();
-                } else {
-                    loadWorkers();
-                }
+                loadData(currentTab); // Recargar la tabla actual
             } else {
                 window.showAppNotification(`Error: ${result.error}`, 'error');
             }
@@ -371,28 +308,28 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     /**
-     * Elimina un usuario
+     * Elimina un usuario (o trabajador). La API se encarga de la lógica en cascada.
      * @param {number} userId - ID del usuario a eliminar
      */
-    const deleteUser = async (userId) => {
-        if (!confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+    const deleteItem = async (userId) => {
+        if (!confirm('¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.')) {
             return;
         }
 
         try {
             const token = getAuthToken();
-            const response = await fetch(`http://localhost:3001/api/usuarios/${userId}`, {
+            // BUG CORREGIDO: Siempre se elimina a través de la ruta de usuarios,
+            // ya que el backend está configurado para borrar el trabajador asociado.
+            const response = await fetch(`/api/usuarios/${userId}`, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
 
             const result = await response.json();
 
             if (response.ok) {
                 window.showAppNotification('Usuario eliminado correctamente.', 'success');
-                loadUsers();
+                loadData(currentTab); // Recargar la tabla actual
             } else {
                 window.showAppNotification(`Error: ${result.error}`, 'error');
             }
@@ -403,40 +340,27 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     /**
-     * Elimina un trabajador
-     * @param {number} workerId - ID del trabajador a eliminar
+     * Maneja los clics en la tabla usando delegación de eventos.
+     * @param {Event} e - El objeto del evento.
      */
-    const deleteWorker = async (workerId) => {
-        if (!confirm('¿Estás seguro de que deseas eliminar este trabajador?')) {
-            return;
-        }
+    const handleTableClick = (e) => {
+        const target = e.target;
+        const row = target.closest('tr');
+        if (!row || !row.dataset.id) return;
 
-        try {
-            const token = getAuthToken();
-            const response = await fetch(`http://localhost:3001/api/trabajadores/${workerId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+        const userId = parseInt(row.dataset.id, 10);
+        const item = dataStore[currentTab].find(d => d.id_usuario === userId);
 
-            const result = await response.json();
-
-            if (response.ok) {
-                window.showAppNotification('Trabajador eliminado correctamente.', 'success');
-                loadWorkers();
-            } else {
-                window.showAppNotification(`Error: ${result.error}`, 'error');
-            }
-        } catch (error) {
-            console.error('Error al eliminar trabajador:', error);
-            window.showAppNotification('No se pudo conectar con el servidor.', 'error');
+        if (target.classList.contains('edit-btn')) {
+            if (item) openEditModal(item);
+        } else if (target.classList.contains('delete-btn')) {
+            deleteItem(userId);
         }
     };
 
     // ========== EVENT LISTENERS ==========
 
-    // Tabs
+    // Manejador para las pestañas
     tabs.forEach(tab => {
         tab.addEventListener('click', (e) => {
             // Remover clase activa de todos los tabs
@@ -449,11 +373,7 @@ document.addEventListener('DOMContentLoaded', function () {
             currentTab = tab.textContent.toLowerCase() === 'usuarios' ? 'usuarios' : 'trabajadores';
 
             // Cargar datos del tab
-            if (currentTab === 'usuarios') {
-                loadUsers();
-            } else {
-                loadWorkers();
-            }
+            loadData(currentTab);
         });
     });
 
@@ -481,6 +401,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Delegación de eventos en la tabla
+    if (tableBody) {
+        tableBody.addEventListener('click', handleTableClick);
+    }
+
     // Cargar usuarios al abrir la página
-    loadUsers();
+    loadData('usuarios');
 });

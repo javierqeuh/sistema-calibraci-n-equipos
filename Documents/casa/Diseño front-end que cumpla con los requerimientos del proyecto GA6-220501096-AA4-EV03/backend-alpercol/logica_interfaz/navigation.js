@@ -1,18 +1,27 @@
-// js/navigation.js
-// Script compartido de navegación para todas las páginas
+/**
+ * Lógica de navegación compartida para todas las páginas del panel de administración.
+ * Responsabilidades:
+ * - Manejar la redirección de los elementos del menú de navegación.
+ * - Gestionar el cierre de sesión del usuario.
+ * - Actualizar periódicamente el contador de notificaciones no leídas en el menú.
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
     // Obtener todos los elementos de navegación
     const navItems = document.querySelectorAll('.nav-bar .nav-item');
     const logoutBtn = document.querySelector('.logout-btn');
 
-    // Función para actualizar el badge de notificaciones
+    /**
+     * Obtiene el número de notificaciones no leídas desde la API
+     * y actualiza el badge en el menú de navegación.
+     */
     const updateNotificationBadge = async () => {
         try {
             const token = localStorage.getItem('userToken');
             if (!token) return;
 
-            const response = await fetch('http://localhost:3001/api/notificaciones/no-leidas/count', {
+            // Usar rutas relativas para mayor portabilidad
+            const response = await fetch('/api/notificaciones/no-leidas/count', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -36,10 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error al actualizar badge:', error);
         }
     };
+    
+    // Llama a la función una vez al cargar la página
     updateNotificationBadge();
     
-    // Actualizar el contador cada 5 segundos para que aparezca apenas llegue la notificación
-    setInterval(updateNotificationBadge, 5000);
+    // Actualiza el contador periódicamente para mantenerlo sincronizado
+    setInterval(updateNotificationBadge, 15000); // 15 segundos es un intervalo más razonable que 5
 
     // Agregar evento de click a cada nav-item
     navItems.forEach(item => {

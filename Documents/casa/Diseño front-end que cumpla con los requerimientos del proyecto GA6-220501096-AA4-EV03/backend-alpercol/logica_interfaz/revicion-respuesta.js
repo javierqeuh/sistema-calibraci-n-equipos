@@ -169,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <button class="secondary" onclick="volverALista()" style="margin-bottom: 15px;">← Volver</button>
             <h1>Respuestas a: ${survey.titulo}</h1>
         `;
+        // boton para detalles respuestas 
 
         if (responsesData.length === 0) {
             const emptyMessage = document.createElement('div');

@@ -31,6 +31,20 @@ export const getUserById = async (req, res) => {
     res.status(500).json({ message: 'Error obteniendo perfil.' });
   }
 };
+
+// cargar foto perfil
+export const uploadProfilePicture = async (req, res) => {
+  const { id } = req.params;
+  if (!req.file) return res.status(400).json({ message: 'No se ha subido ningún archivo.' });
+  try {
+    const filePath = `/uploads/${req.file.filename}`;
+    await db.execute('UPDATE usuario SET foto_perfil = ? WHERE id_usuario = ?', [filePath, id]);
+    res.json({ message: 'Foto de perfil actualizada correctamente.', path: filePath });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar la foto de perfil.' });
+  }
+};
+
 // atualizar usuario
 export const updateUser = async (req, res) => {
   const { nombre, apellidos, email, rol, password } = req.body;
